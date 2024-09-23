@@ -1,0 +1,101 @@
+@page "/Chat"
+
+<div class="chat-page">
+    <!-- Left side: Chat List -->
+    <div class="chat-list-panel">
+        <div class="search-bar">
+            <input type="text" placeholder="Search" />
+        </div>
+        <div class="chat-list">
+            @foreach (var chat in chatList)
+            {
+                <div class="chat-item">
+                    <img class="avatar" src="@chat.AvatarUrl" alt="Avatar" />
+                    <div class="chat-info">
+                        <div class="chat-header">
+                            <span class="user-name">@chat.UserName</span>
+                            <span class="chat-time">@chat.LastSeen</span>
+                        </div>
+                        <div class="last-message">
+                            <span>@chat.LastMessage</span>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Right side: Active Chat -->
+    <div class="chat-conversation-panel">
+        <div class="conversation-header">
+            <img class="avatar" src="https://ibb.co/cCNk6NT" alt="Avatar" />
+            <div class="conversation-info">
+                <span class="user-name">User Name</span>
+                <span class="last-seen">last seen today at 08:30</span>
+            </div>
+        </div>
+
+        <div class="messages">
+            @foreach (var message in messages)
+            {
+                <div class="message @message.Type">
+                    <span>@message.Content</span>
+                    <span class="timestamp">@message.Timestamp</span>
+                </div>
+            }
+        </div>
+
+        <div class="chat-input-area">
+            <input type="text" placeholder="Type a message" @bind="messageInput" />
+            <button @onclick="SendMessage">Send</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string messageInput = string.Empty;
+    private List<Chat> chatList = new List<Chat>
+    {
+        new Chat { UserName = "Amber", LastMessage = "I'm trying to buy your Art", LastSeen = "10:01", AvatarUrl = "https://ibb.co/cCNk6NT" },
+        new Chat { UserName = "Kgomotso", LastMessage = "Saw your Art Gallery it looks nice im trying to get one for myself", LastSeen = "09:57", AvatarUrl = "https://ibb.co/cCNk6NT" },
+        new Chat { UserName = "Usiyolise", LastMessage = "I'm sorry we can't buy your art,The price is way too high", LastSeen = "09:57", AvatarUrl = "https://ibb.co/cCNk6NT" },
+        new Chat { UserName = "Luyanda", LastMessage = "What type of medium is that?", LastSeen = "09:42", AvatarUrl = "https://ibb.co/cCNk6NT" },
+        new Chat { UserName = "Zinhle", LastMessage = "Would you like to colaborate?", LastSeen = "08:51", AvatarUrl = "https://ibb.co/cCNk6NT" },
+        new Chat { UserName = "Martin", LastMessage = "Hi saw your profile idk if you like a sponsership?", LastSeen = "08:32", AvatarUrl = "https://ibb.co/cCNk6NT" },
+        new Chat { UserName = "Bill", LastMessage = "I’m interested in knowing more about the artist featured in the current show. Can you share any details?", LastSeen = "07:19", AvatarUrl = "https://ibb.co/cCNk6NT" },
+        new Chat { UserName = "Yves", LastMessage = "Can you provide some background on the gallery’s mission and how it supports emerging artists?", LastSeen = "07:02", AvatarUrl = "https://ibb.co/cCNk6NT" },
+        new Chat { UserName = "Learent", LastMessage = "I’m planning a visit soon. Do I need to book tickets in advance, or is it possible to buy them at the door?", LastSeen = "06:44", AvatarUrl = "https://ibb.co/cCNk6NT" },
+    };
+
+    private List<Message> messages = new List<Message>
+    {
+        new Message { Content = "Hi I like your art i was wondering if we can make arrangements 😅", Timestamp = "07:50", Type = "received" },
+        new Message { Content = "Which one you talking about to be specific? 😬", Timestamp = "07:54", Type = "sent" },
+        new Message { Content = "The one that look like monalisa", Timestamp = "08:20", Type = "received" },
+        new Message { Content = "I'm trying to buy your Art 🥲", Timestamp = "13:40", Type = "received" }
+    };
+
+    private void SendMessage()
+    {
+        if (!string.IsNullOrWhiteSpace(messageInput))
+        {
+            messages.Add(new Message { Content = messageInput, Timestamp = DateTime.Now.ToString("HH:mm"), Type = "sent" });
+            messageInput = string.Empty;
+        }
+    }
+
+    public class Chat
+    {
+        public string UserName { get; set; }
+        public string LastMessage { get; set; }
+        public string LastSeen { get; set; }
+        public string AvatarUrl { get; set; }
+    }
+
+    public class Message
+    {
+        public string Content { get; set; }
+        public string Timestamp { get; set; }
+        public string Type { get; set; } // sent or received
+    }
+}

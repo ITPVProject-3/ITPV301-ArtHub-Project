@@ -1,0 +1,53 @@
+@page "/signup"
+@using HelloBlazorServer.Models  <!-- This line imports the Models namespace -->
+
+<div class="auth-container">
+    <div class="auth-box">
+        <h2>Sign Up</h2>
+        <EditForm Model="@signupModel" OnValidSubmit="HandleSignup">
+            <DataAnnotationsValidator />
+
+            <div class="form-group">
+                <label for="name">First Name</label>
+                <InputText id="name" @bind-Value="signupModel.FirstName" class="form-control" />
+                <ValidationMessage For="@(() => signupModel.FirstName)" />
+            </div>
+
+            <div class="form-group">
+                <label for="surname">Last Name</label>
+                <InputText id="surname" @bind-Value="signupModel.LastName" class="form-control" />
+                <ValidationMessage For="@(() => signupModel.LastName)" />
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <InputText id="email" @bind-Value="signupModel.Email" class="form-control" />
+                <ValidationMessage For="@(() => signupModel.Email)" />
+            </div>
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <InputText id="username" @bind-Value="signupModel.Username" class="form-control" />
+                <ValidationMessage For="@(() => signupModel.Username)" />
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <InputText id="password" @bind-Value="signupModel.Password" class="form-control" type="password" />
+                <ValidationMessage For="@(() => signupModel.Password)" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </EditForm>
+
+        <p>Already have an account? <a href="/login">Login</a></p>
+    </div>
+</div>
+
+@code {
+    private SignupModel signupModel = new SignupModel();
+
+    private void HandleSignup()
+    {
+    }
+}
